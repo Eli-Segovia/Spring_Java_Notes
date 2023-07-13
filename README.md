@@ -1,6 +1,9 @@
 # Spring_Java_Notes
 Notes and mini project for Spring/Spring Boot for Java
 
+## Bootstrapping a Spring project
+
+There is a lot of set up and configuration that comes a long with geting a Spring project ready to go. I personally have worked with React a bit, so I think a good analogy is all the setup that you need to get React good to go (dependencies, webpack, eslint, babel, etc.). We use CreateReactApp to bootstrap React applications. In a similar fashion, there is spring initializr. It is a webpage at [start.spring.io](https://start.spring.io). I am not sure if there is a CLI for it, but the webpage is simple enough to bootstrap an application. For the most part, all the example projects in this repo use spring initialzr 
 
 ## Terminology
 
