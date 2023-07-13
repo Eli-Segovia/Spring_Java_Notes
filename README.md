@@ -28,6 +28,8 @@ There is a lot of set up and configuration that comes a long with geting a Sprin
 | @ComponentScan | Tells Spring which package to looks into (including its sub-packages) -- defaults to the current package it is on |
 | @Autowired           | Basically tells Spring that we want to get the value of the Autowired stuff (usually the properties of a Constructor) from Beans that Spring is managing  (I.E. we want to get the Brake that Spring is managing as the Brake of the Car |
 | @Primary             | A way to handle ambiguity if two or more types of beans can be autowired into a Spring Bean. For example, we might have DiskBrake or we might have RimBrake that can be autowired into Bicycle. We can set the @Primary to help Spring handle the case and choose the Primary Bean only |\
+| @RestController      | Defines a Rest Controller for writing/exposing an endpoint |
+| @RequestMapping      | The way to map the endpoint to a specific method | 
 
 ## Spring Modules
 
