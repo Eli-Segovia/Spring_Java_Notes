@@ -24,6 +24,8 @@ public class SimpleSpringProjectApplication {
 		// We now run our api, and Spring will do some magic!
 		runner.run();
 
+		System.out.println("Hello there");
+
 	}
 
 }
