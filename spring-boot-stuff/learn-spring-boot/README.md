@@ -35,5 +35,63 @@ Configuration for the application is automatically used by the application. What
 * what the existing configuration is (i.e. Annotations)
 
 
-With springboot a lot of things for the web uses some predefined crap. This probably comes from the starter project config. So a lot of stuff points to a file called `application.properties`. We can set package log level there. Probably some other crap too. 
+With springboot a lot of things for the web uses some predefined crap. This probably comes from the starter project config. So a lot of stuff points to a file called `application.properties`. We can set package log level there. Probably some other crap too.
+
+## Profiles
+
+Profiles allow you to have different configurations for the different environments. E.g dev,test,production,etc:
+* Different Databases
+* Different Web Services
+* Different Configuration files
+
+## Complex Configuration Properties
+
+Here is the pattern:
+
+Make a java class and an associated properties file. Something like
+
+#### The Class (look at the actual file for more context)
+
+```java
+package blah;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties(prefix = "currency-service")
+@Component
+public class CurrencyServiceConfiguration {
+    private String url;
+    private String username;
+    private String key;
+    
+    // getters and setter whatever
+}
+```
+#### The properties file
+```properties
+currency-service.url=someBull
+currency-service.username=someMoreBull
+currency-service.key=theMostBull
+```
+
+The Class now represents this properties file and we can use those properties wherever we may need them in our code.
+
+
+## Embedded Servers
+
+2 paradigms:
+
+1. Deploy Wars onto a java server
+   * Install Java
+   * Install Web/App Server
+   * Deploy War
+  
+2. Used Embedded Server
+   * Install Java
+   * Run JAR (Server is already a part of the jar)
+  
+Server Examples:
+* Tomcat
+* Jetty
+* Undertow
 

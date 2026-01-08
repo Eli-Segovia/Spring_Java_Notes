@@ -40,7 +40,8 @@ public class CourseController {
             new Course(1, "Learn AWS", "Eli Segovia"),
             new Course(2, "Learn Java", "Eli Segovia"),
             new Course(3, "Learn C++", "Eli Segovia"),
-            new Course(4, "Learn Death", "Eli Segovia")
+            new Course(4, "Learn Death", "Eli u"),
+            new Course(5, "Learn Dragon", "Eli uuuuu;")
         );
     }
 

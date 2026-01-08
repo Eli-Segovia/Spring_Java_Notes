@@ -21,7 +21,7 @@ There is a lot of set up and configuration that comes a long with geting a Sprin
 
 ## Annotations
 
-| Annoation            | What it does       |
+| Annotation            | What it does       |
 | -------------------- | ------------------ |
 | @Component           | Tells Spring that this is a class it should manage. This is now a Spring Bean |
 | @SpringBootApplication | (might need Correction) Essentially the container of the main method: where the application actually does its work |
@@ -29,7 +29,8 @@ There is a lot of set up and configuration that comes a long with geting a Sprin
 | @Autowired           | Basically tells Spring that we want to get the value of the Autowired stuff (usually the properties of a Constructor) from Beans that Spring is managing  (I.E. we want to get the Brake that Spring is managing as the Brake of the Car |
 | @Primary             | A way to handle ambiguity if two or more types of beans can be autowired into a Spring Bean. For example, we might have DiskBrake or we might have RimBrake that can be autowired into Bicycle. We can set the @Primary to help Spring handle the case and choose the Primary Bean only |\
 | @RestController      | Defines a Rest Controller for writing/exposing an endpoint |
-| @RequestMapping      | The way to map the endpoint to a specific method | 
+| @RequestMapping      | The way to map the endpoint to a specific method |
+| @ConfigurationProperties      | Specifies that the class represents an associated configuration file | 
 
 ## Spring Modules
 
@@ -54,3 +55,63 @@ Example of Spring Projects:
 * Spring Data - For databases NoSQL and Relational
 * Spring Integration - Addresses challenges with integration with other apps
 * Spring Security - Secure application and API or microservice
+
+## Spring Boot DevTools
+
+Spring Boot DevTools increase developer productivity.
+
+For example, instead of needing to manually restart the server after every code change you can use SpringBoot DevTools to automatically restart the server once you have updated the code.
+
+The way to include these devtools is to add them as a dependency to your pom.xml:
+```xml
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+```
+
+
+## Spring Boot Actuator
+
+A way to collect Metrics and health for Spring. I won't go into too much detail for my sake.
+
+You just include it as a dependency 
+```xml
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+```
+And then you can access endpoints to access some of the default metrics at `localhost:8080/actuator/`
+
+you can manage the exposed endpoints by adding the `management.endpoints.web.exposure.include` attribute to your properties.
+
+E.g:
+
+```properties
+management.endpoints.web.exposure.include=health,metrics
+```
+
+
+## Spring Boot vs Spring MVC vs Spring
+
+#### Spring Framework
+All About Dependency Injection. That's it.
+
+DI is not sufficient for a full-fledged application -- you need other frameworks to build apps:
+* Spring Modules and Spring Projects extend Spring
+    * Provide good integration with other frameworks (Hibernate/JPA, JUnit & Mockito)
+    
+#### Spring MVC
+This is a Spring Module -> simplifies making REST APIs
+
+#### Spring Boot
+Helps you build Production-ready apps quickly -> Kind of like a wrapper for Spring Framework and Spring MVC
+* Starter Projects
+   * speeds up configuration of servers, tools, and other shit.
+* Auto Configuration
+* Enable Non-functional reqs
+    * Actuator
+    * Embedded Servers
+    * Logging and error handling
+    * Profiles and configurationProperties
