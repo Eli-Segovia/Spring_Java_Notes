@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!--
+
+
+	   This here be the parent pom. Our POM inherits the parent and all of the
+	   ancestry involved. It kinda gets "injected" here in the child pom
+
+	   mvn help:effective-pom will show the pom and all the stuff it has inherited
+	   as if it were in one file
+
+
+	   Parent POMs are sort of in charge of doing dependency management. THat is,
+	   they set the version of the dependencies we are going to be using in the children
+	   projects/poms
+
+	   mvn build dependency:tree -> tells us dependencies and transitives :)
+
+	 -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.0.1</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.elisegovia.projects.springbootproject</groupId>
+	<artifactId>maven-basics</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>maven-basics</name>
+	<description>Maven stuff</description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+
+	<!-- Responsibility #1 for maven is to handle dependencies:
+
+	       Here are the Dependencies... YAY
+
+
+		  Dependencies have dependencies (transitive deps). These come in for free (kinda)
+		  because we brought in the dependencies that depend on those transitive deps.
+
+		  It can get hair :/
+	 -->
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<!-- Notice here the scope -> tells use that these are only brought in
+		     when tests are being run :)                                    -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
