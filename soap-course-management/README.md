@@ -78,8 +78,8 @@ This will generate the classes and package them as part of the current project. 
     <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jaxb2-maven-plugin</artifactId>
-        <version>1.6</version>
-        
+        <version>3.1.0</version>
+
         <executions>
             <execution>
                 <id>xjc</id> <!-- I think this can be wtv -->
@@ -89,10 +89,12 @@ This will generate the classes and package them as part of the current project. 
             </execution>
         </executions>
         <configuration>
-            <!-- XSD Source Folder -->
-            <schemaDirectory>${project.basedir}/src/main/resources/schema-definitions</schemaDirectory>
+            <!-- XSD Source Files -->
+            <sources>
+                <source>${project.basedir}/src/main/resources/schema-definitions/course-details.xsd</source>
+            </sources>
             <!-- Java Object Source Folder -->
-            <outputDirectory>${project.basedir>/src/main/java</outputDirectory> <!-- At work we simply package it and throw it into nexus for wide-use -->
+            <outputDirectory>${project.basedir}/src/main/java</outputDirectory> <!-- At work we simply package it and throw it into nexus for wide-use -->
             <!-- clear folder -> false (would delete the src/main/java after every build apparently) -->
             <clearOutputDir>false</clearOutputDir>
         </configuration>
@@ -100,3 +102,7 @@ This will generate the classes and package them as part of the current project. 
 
 </plugins>
 ```
+
+
+
+## Creating Endpoint
