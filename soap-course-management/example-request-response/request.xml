@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!--  Notice Here we have to provide the xmlns and point to namespace that is in url format. Normally you would actually put that in
+      the website of the same url, but it's not strictly necessary. website url format just seems to be the standard for defining namespaces
+      even Java (packages).
+
+      Xsi tells us where we can find this schema. Again, we point to the URL (normally it would be there). AS well as the physical local copy relative
+      to the current file :).
+
+      IntelliJ Idea is smart and actually validates this example with the schema and any errors will be highlighted in red.
+  -->
+<GetCourseDetailsRequest xmlns="http://eli-segovia.com/courses"
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://eli-segovia.com/courses  ../schema-definitions/course-details.xsd">
+    <id>1200</id>
+</GetCourseDetailsRequest>
