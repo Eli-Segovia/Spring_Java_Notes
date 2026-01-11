@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
+<!-- Notes:
+  * Using default namespace is bad practice
+  * using tns is like creating a "this namespace" namespace
+
+  -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://eli-segovia.com/courses"
-           xmlns:tns="http://eli-segovia.com/courses"
+           targetNamespace="http://elisegovia.com/courses"
+           xmlns:tns="http://elisegovia.com/courses"
            elementFormDefault="qualified">
 
     <xs:element name="GetCourseDetailsRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:integer"></xs:element>
+                <xs:element name="id" type="xs:int"></xs:element>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -23,7 +28,7 @@
     
     <xs:complexType name="CourseDetails">
         <xs:sequence>
-            <xs:element name="id" type="xs:integer"/>
+            <xs:element name="id" type="xs:int"/>
             <xs:element name="name" type="xs:string" />
             <xs:element name="description" type="xs:string" />
         </xs:sequence>

@@ -49,7 +49,14 @@ The `Body` is the meat and potatoes of the message. It usually contains the payl
 ```
 
 
-### JAXB (Java API for XML Binding)
+## XSD
+
+XSD is a topic in and of itself. There is a lot of stuff you can learn about it. Here is a link if you want more info:
+
+https://www.w3schools.com/xml/schema_intro.asp
+
+
+## JAXB (Java API for XML Binding)
 
 When we send messages we want that message to be XML. Plain and Simple
 
@@ -58,3 +65,38 @@ When we process the message we work in Java.
 Problem: XML is not Java. Java is not XML.
 
 Solution: Transform XML into Java and then respond back into XML when processed :)
+
+### Using JAXB
+
+JAXB will read the schema and create Java Objects from the XSD. The way we do this in this project is using the `jaxb-maven-plugin`.
+This will generate the classes and package them as part of the current project. We want to add this plugin as follows:
+
+#### pom.xml
+```xml
+<plugins>
+    <!-- JAXB2 Maven Plugin -->
+    <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jaxb2-maven-plugin</artifactId>
+        <version>1.6</version>
+        
+        <executions>
+            <execution>
+                <id>xjc</id> <!-- I think this can be wtv -->
+                <goals>
+                    <goal>xjc</goal> <!-- This plugin has a few goals. XJC generates from xsd to class files we will use in the code base. -->
+                </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <!-- XSD Source Folder -->
+            <schemaDirectory>${project.basedir}/src/main/resources/schema-definitions</schemaDirectory>
+            <!-- Java Object Source Folder -->
+            <outputDirectory>${project.basedir>/src/main/java</outputDirectory> <!-- At work we simply package it and throw it into nexus for wide-use -->
+            <!-- clear folder -> false (would delete the src/main/java after every build apparently) -->
+            <clearOutputDir>false</clearOutputDir>
+        </configuration>
+    </plugin>
+
+</plugins>
+```

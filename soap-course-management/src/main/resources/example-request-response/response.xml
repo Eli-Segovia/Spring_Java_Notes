@@ -10,9 +10,9 @@
 
       IntelliJ Idea is smart and actually validates this example with the schema and any errors will be highlighted in red.
   -->
-<GetCourseDetailsResponse xmlns="http://eli-segovia.com/courses"
+<GetCourseDetailsResponse xmlns="http://elisegovia.com/courses"
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                         xsi:schemaLocation="http://eli-segovia.com/courses  ../schema-definitions/course-details.xsd">
+                         xsi:schemaLocation="http://elisegovia.com/courses  ../schema-definitions/course-details.xsd">
     <CourseDetails>
         <id>123</id>
         <name>Eli</name>
