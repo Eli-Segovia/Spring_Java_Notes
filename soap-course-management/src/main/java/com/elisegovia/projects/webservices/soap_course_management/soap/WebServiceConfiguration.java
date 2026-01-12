@@ -60,11 +60,14 @@ public class WebServiceConfiguration {
      * ##################  Configuring a WSDL #############################
      * We are going to tell spring to generate a wsdl from an xsd file.
      *
+     * generateCoursesSchema
      * First, we tell spring -> Hey, we need the schema to be handled by Spring. So spring now knows about the
      *     courses schema
      *
+     * generateCoursesWSDL
      * Then, we tell Spring -> Hey, I want a mapping from code to schema to the URI, so that when we hit the endpoint
-     *     the servlet can direct us to the right Java methods and shit. Spring will autowire in the schema and then
+     *     the servlet can direct us to the right Java methods and shit. Spring will autowire in the schema
+     *     (that we already generated in generateCoursesSchema above the generateCoursesWsdl method) and then
      *     we configure the rest of the needed information
      *        - PortType -> this is sort of like the name of the interface/class in WSDL land
      *        - namespace -> the namespace is the same as the xsd

@@ -106,3 +106,13 @@ This will generate the classes and package them as part of the current project. 
 
 
 ## Creating Endpoint
+
+please refer to src/main/java/com/elisegovia/projects/webservices/soap_course_management/soap. I have some notes in the
+src code that is pretty good.
+
+## SOAP Clients
+In order to test soap endpoints, we can't just access natively on the browser like you can with GET requests for REST
+apis. In this course, we are using Wizdler, which is a browser extension. --> it's deprecated -_-
+
+So, I will be using Soap UI :)
+
