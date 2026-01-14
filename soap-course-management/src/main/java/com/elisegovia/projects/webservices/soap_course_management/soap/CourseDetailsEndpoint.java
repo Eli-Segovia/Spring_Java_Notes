@@ -3,6 +3,9 @@ package com.elisegovia.projects.webservices.soap_course_management.soap;
 import com.elisegovia.courses.CourseDetails;
 import com.elisegovia.courses.GetCourseDetailsRequest;
 import com.elisegovia.courses.GetCourseDetailsResponse;
+import com.elisegovia.projects.webservices.soap_course_management.soap.beans.Course;
+import com.elisegovia.projects.webservices.soap_course_management.soap.service.CourseDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -25,17 +28,25 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 @Endpoint
 public class CourseDetailsEndpoint {
 
+    /**
+     * This is what actually handles the business logic in the endpoints below.
+     */
+    @Autowired
+    private CourseDetailsService service;
+
     // This is the method that will process the GetCourseDetailsRequest
     // input - GetCourseDetailsRequest
     // output - GetCourseDetailsResponse
     @PayloadRoot(namespace = "http://elisegovia.com/courses", localPart = "GetCourseDetailsRequest")
     @ResponsePayload
     public GetCourseDetailsResponse processCourseDetailsRequest (@RequestPayload GetCourseDetailsRequest getCourseDetailsRequest) {
+        Course course = service.getCourseById(getCourseDetailsRequest.getId());
+
         GetCourseDetailsResponse response = new GetCourseDetailsResponse();
         CourseDetails courseDetails = new CourseDetails();
-        courseDetails.setDescription("blah");
-        courseDetails.setId(getCourseDetailsRequest.getId());
-        courseDetails.setName("blahname");
+        courseDetails.setDescription(course.getDescription());
+        courseDetails.setId(course.getId());
+        courseDetails.setName(course.getName());
         response.setCourseDetails(courseDetails);
         return response;
     }
