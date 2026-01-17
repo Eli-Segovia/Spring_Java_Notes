@@ -51,13 +51,9 @@ public class CourseDetailsEndpoint {
     @ResponsePayload
     public GetCourseDetailsResponse processCourseDetailsRequest (@RequestPayload GetCourseDetailsRequest getCourseDetailsRequest) {
         Course course = service.getCourseById(getCourseDetailsRequest.getId());
-
         GetCourseDetailsResponse response = new GetCourseDetailsResponse();
-        CourseDetails courseDetails = new CourseDetails();
-        courseDetails.setDescription(course.getDescription());
-        courseDetails.setId(course.getId());
-        courseDetails.setName(course.getName());
-        response.setCourseDetails(courseDetails);
+        response.setCourseDetails(courseDetailsFromCourse(course));
+
         return response;
     }
 
@@ -69,14 +65,28 @@ public class CourseDetailsEndpoint {
         GetAllCourseDetailsResponse response = new GetAllCourseDetailsResponse();
 
         for (Course course : courses) {
-            CourseDetails courseDetails = new CourseDetails();
-            courseDetails.setName(course.getName());
-            courseDetails.setId(course.getId());
-            courseDetails.setDescription(course.getDescription());
-            response.getCourseDetails().add(courseDetails);
+            response.getCourseDetails().add(courseDetailsFromCourse(course));
         }
 
         return response;
+    }
+
+    @PayloadRoot(namespace = "http://elisegovia.com/courses", localPart = "DeleteCourseRequest")
+    @ResponsePayload
+    public DeleteCourseResponse processDeleteCourseRequest (@RequestPayload DeleteCourseRequest request) {
+        int deletedCount = service.deleteById(request.getId());
+        DeleteCourseResponse response = new DeleteCourseResponse();
+        response.setStatus(deletedCount >= 1 ? Status.SUCCESS : Status.FAILURE);
+        return response;
+    }
+
+
+    private CourseDetails courseDetailsFromCourse(Course course) {
+        CourseDetails courseDetails = new CourseDetails();
+        courseDetails.setDescription(course.getDescription());
+        courseDetails.setId(course.getId());
+        courseDetails.setName(course.getName());
+        return courseDetails;
     }
 
 
