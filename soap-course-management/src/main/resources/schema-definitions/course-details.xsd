@@ -26,7 +26,10 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="GetAllCourseDetailsRequest"/>
+    <xs:element name="GetAllCourseDetailsRequest">
+        <!-- Added so that JAXB can pick this up - doesn't handle simple types. -->
+        <xs:complexType/>
+    </xs:element>
 
     <xs:element name="GetAllCourseDetailsResponse">
         <xs:complexType>
