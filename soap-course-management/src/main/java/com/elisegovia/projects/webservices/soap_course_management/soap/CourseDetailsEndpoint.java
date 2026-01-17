@@ -2,6 +2,7 @@ package com.elisegovia.projects.webservices.soap_course_management.soap;
 
 import com.elisegovia.courses.*;
 import com.elisegovia.projects.webservices.soap_course_management.soap.beans.Course;
+import com.elisegovia.projects.webservices.soap_course_management.soap.exception.CourseNotFoundException;
 import com.elisegovia.projects.webservices.soap_course_management.soap.service.CourseDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -49,8 +50,11 @@ public class CourseDetailsEndpoint {
     // output - GetCourseDetailsResponse
     @PayloadRoot(namespace = "http://elisegovia.com/courses", localPart = "GetCourseDetailsRequest")
     @ResponsePayload
-    public GetCourseDetailsResponse processCourseDetailsRequest (@RequestPayload GetCourseDetailsRequest getCourseDetailsRequest) {
-        Course course = service.getCourseById(getCourseDetailsRequest.getId());
+    public GetCourseDetailsResponse processCourseDetailsRequest (@RequestPayload GetCourseDetailsRequest request) {
+        Course course = service.getCourseById(request.getId());
+        if (null == course) {
+            throw new CourseNotFoundException("Course with course ID " + request.getId() + " not found");
+        }
         GetCourseDetailsResponse response = new GetCourseDetailsResponse();
         response.setCourseDetails(courseDetailsFromCourse(course));
 
