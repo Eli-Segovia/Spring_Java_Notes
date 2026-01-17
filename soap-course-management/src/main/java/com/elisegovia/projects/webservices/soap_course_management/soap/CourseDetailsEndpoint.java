@@ -1,8 +1,6 @@
 package com.elisegovia.projects.webservices.soap_course_management.soap;
 
-import com.elisegovia.courses.CourseDetails;
-import com.elisegovia.courses.GetCourseDetailsRequest;
-import com.elisegovia.courses.GetCourseDetailsResponse;
+import com.elisegovia.courses.*;
 import com.elisegovia.projects.webservices.soap_course_management.soap.beans.Course;
 import com.elisegovia.projects.webservices.soap_course_management.soap.service.CourseDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +9,23 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  *
  * There are a few annotations here that should be addressed.
  *
- * Endpoint -> tells Spring FW that the current class is going to have methods that handle requests
- * PayloadRoot -> tells Spring Webservices what namespace and what specific method (localPart) is going to hit the endpoint method
+ * Endpoint -> tells Spring FW that the current class is going to have methods that handle requests -- specifically soap requests.
+ *
+ * PayloadRoot -> tells Spring Webservices what namespace (where the wsdl will be defined) and what specific method (localPart) from the xsd is going to be handled
+ *                by the method it is defined in
  *
  * RequestPayload -> tells Spring that the object provided should be mapped to the actual request sent over
+ *
  * ResponsePayload -> tells Spring that the object we return is the response. idk seems redundant but that's Java.
+ *
  * I guess the two above are needed for the marshalling/unmarshalling between Java and XML
  *
  */
@@ -29,13 +34,18 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 public class CourseDetailsEndpoint {
 
     /**
-     * This is what actually handles the business logic in the endpoints below.
+     * This service is what actually handles the business logic in the endpoints below. This class is like the "controller"
+     * It creates the connection between the XSD schema that defines how messages should be send, and the endpoint, and the
+     * WSDL and sends requests to the correct location to be processed.
      */
     @Autowired
     private CourseDetailsService service;
 
-    // This is the method that will process the GetCourseDetailsRequest
+    // This is the method that will control the GetCourseDetailsRequest traffic.
+    // we handle the logic with CourseDetailsService.
+
     // input - GetCourseDetailsRequest
+
     // output - GetCourseDetailsResponse
     @PayloadRoot(namespace = "http://elisegovia.com/courses", localPart = "GetCourseDetailsRequest")
     @ResponsePayload
@@ -48,6 +58,24 @@ public class CourseDetailsEndpoint {
         courseDetails.setId(course.getId());
         courseDetails.setName(course.getName());
         response.setCourseDetails(courseDetails);
+        return response;
+    }
+
+    @PayloadRoot(namespace = "http://elisegovia.com/courses", localPart = "GetAllCourseDetailsRequest")
+    @ResponsePayload
+    public GetAllCourseDetailsResponse processAllCourseDetailsRequest (@RequestPayload GetAllCourseDetailsRequest request) {
+
+        List<Course> courses = service.getCourses();
+        GetAllCourseDetailsResponse response = new GetAllCourseDetailsResponse();
+
+        for (Course course : courses) {
+            CourseDetails courseDetails = new CourseDetails();
+            courseDetails.setName(course.getName());
+            courseDetails.setId(course.getId());
+            courseDetails.setDescription(course.getDescription());
+            response.getCourseDetails().add(courseDetails);
+        }
+
         return response;
     }
 
