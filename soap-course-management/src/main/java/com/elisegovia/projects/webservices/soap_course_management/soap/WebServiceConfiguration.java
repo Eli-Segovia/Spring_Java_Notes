@@ -8,10 +8,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.ws.config.annotation.EnableWs;
+import org.springframework.ws.config.annotation.WsConfigurer;
+import org.springframework.ws.server.EndpointInterceptor;
+import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor;
+import org.springframework.ws.soap.security.wss4j2.callback.SimplePasswordValidationCallbackHandler;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
+
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -22,10 +29,12 @@ import org.springframework.xml.xsd.XsdSchema;
  *
  * Bean -> tells Spring that the returned object should be managed by spring using Dependency Injection
  *
+ * WsConfigurer gives us access to the `addInterceptors` method so that we can tell Spring to add the SecurityInterceptor
+ *
  */
 @EnableWs
 @Configuration
-public class WebServiceConfiguration {
+public class WebServiceConfiguration implements WsConfigurer {
     /**
      * ###############  Registering a MessageDispatcherServlet #############################
      *
@@ -90,6 +99,48 @@ public class WebServiceConfiguration {
         definition.setLocationUri("/ws");
         definition.setSchema(coursesSchema);
         return definition;
+    }
+
+    /**
+     * This adds an Interceptor that checks requests and makes sure user is authenticated
+     *
+     * Additionally, spring manages a list of Interceptors. We will need to add this securityInterceptor to that list
+     * of interceptors
+     *
+     * We also set a Callbackhandler -> we implement that here as well
+     *
+     * SecurityPolicy -> securityPolicy.xml configuration for security policy
+     */
+    @Bean
+    public Wss4jSecurityInterceptor securityInterceptor() {
+        Wss4jSecurityInterceptor securityInterceptor = new Wss4jSecurityInterceptor();
+        // this tells the interceptor to look for the username token. If not found or wrong will throw an error
+        securityInterceptor.setValidationActions("UsernameToken");
+        securityInterceptor.setValidationCallbackHandler(callbackHandler());
+
+        return securityInterceptor;
+    }
+
+    /**
+     * CallbackHandler can be configured to use a certificate, keystore, plaintext password, etc. here
+     * we use the simplepassword validation
+     *
+     */
+    @Bean
+    public SimplePasswordValidationCallbackHandler callbackHandler() {
+        SimplePasswordValidationCallbackHandler handler = new SimplePasswordValidationCallbackHandler();
+        handler.setUsersMap(Collections.singletonMap("user", "password"));
+        return handler;
+    }
+
+
+    /**
+     * We add the interceptor so that Spring can inject the interceptor to inspect the requests
+     * @param interceptors
+     */
+    @Override
+    public void addInterceptors(List<EndpointInterceptor> interceptors) {
+        interceptors.add(securityInterceptor());
     }
 
 

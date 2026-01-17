@@ -228,4 +228,48 @@ the transport method of your messages. Basically tells you how this service is e
 
 `wsdl:service` = sort of tells you the address the service is located
 
+## Security and WS Security
+
+Security with WS-Security provides the following functionality/interoperability:
+- Authentication
+- Digital Signatures
+- Certificates
+
+Implementation -> XWSS - XML and Web Services Security
+- Security Policy
+- XwsSecurityInterceptor
+
+#### Security Dependencies:
+```xml
+
+<dependency>
+    <groupId>org.springframework.ws</groupId>
+    <artifactId>spring-ws-security</artifactId>
+    <exclusions>
+        <exlusion>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </exlusion>
+    </exclusions>
+</dependency>
+
+<dependency>
+    <groupId>com.sun.xml.wss</groupId>
+    <artifactId>xws-security</artifactId>
+    <version>3.0</version>
+    <exclusions>
+        <exlusion>
+            <groupId>javax.xml.crypto</groupId>
+            <artifactId>xmldsig</artifactId>
+        </exlusion>
+    </exclusions>
+</dependency>
+
+<dependency>
+    <groupId>jakarta.activation</groupId>
+    <artifactId>activation</artifactId>
+    <version></version>
+</dependency>
+```
+
 
