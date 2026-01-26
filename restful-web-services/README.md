@@ -40,3 +40,32 @@ These be the Methods we will be implementing :)
 
 Make User POJO. This is just a Java representation of the Database Resource. To actually interact with the Database
 we use a DAO -> Data Access Object. Naming convention is <Resource>Dao or <Resource>DaoService i.e. `UserDao` or `UserDaoService`
+
+### Response Codes.
+
+I know this but I will still make note of this:
+
+![img_1.png](img_1.png)
+
+So to use the right response codes in our messages:
+
+There is this concept of a `ResponseEntity` 
+
+this is just a class that is already implemented by Spring
+It is sort of the container for a Response. Instead of returning our object directly i.e. (`public User post()...`)
+we would instead do `public ResponseEntity<User> post() ...` we can then apend more metadata to our response including
+the response code.
+
+for a `201 created` it looks something like:
+
+```java
+
+public ResponseEntity<User> post(@RequestBody User user) {
+    service.post(user);
+    return ResponseEntity.created(null).build();
+}
+```
+
+You can add additional metadata within the `created` method (or whichever ResponseEntity method you choose). For example
+you can specify the new URI for the user created i.e. `http://localhost:8080/users/{newlyCreatedID}` as part of the metadata.
+Look at the code to see that.
