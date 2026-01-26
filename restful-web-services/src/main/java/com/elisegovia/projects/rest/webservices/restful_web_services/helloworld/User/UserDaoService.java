@@ -1,5 +1,6 @@
 package com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.User;
 
+import com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.User.Beans.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -42,7 +43,7 @@ public class UserDaoService {
 
     public User get(Integer id) {
         for (User user: users) {
-            if (null != user && Objects.equals(user.getId(), id)) {
+            if (Objects.equals(user.getId(), id)) {
                 return user;
             }
         }
