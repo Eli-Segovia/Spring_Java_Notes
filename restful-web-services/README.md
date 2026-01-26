@@ -27,3 +27,16 @@ is Jackson which is a tool that can work with XML and JSON.
 ```
 So. Looks like you just set the path param as {var} and then you specify that you want to use it by using the `PathVariable`
 annotation.
+
+
+### Designing REST Api Bull
+
+![img.png](img.png)
+
+These be the Methods we will be implementing :)
+
+
+### Make POJO out of resources, e.g.: User and Post and Daos
+
+Make User POJO. This is just a Java representation of the Database Resource. To actually interact with the Database
+we use a DAO -> Data Access Object. Naming convention is <Resource>Dao or <Resource>DaoService i.e. `UserDao` or `UserDaoService`
