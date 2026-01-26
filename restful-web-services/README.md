@@ -69,3 +69,5 @@ public ResponseEntity<User> post(@RequestBody User user) {
 You can add additional metadata within the `created` method (or whichever ResponseEntity method you choose). For example
 you can specify the new URI for the user created i.e. `http://localhost:8080/users/{newlyCreatedID}` as part of the metadata.
 Look at the code to see that.
+
+#### Exceptions, 400 codes, and 500 codes

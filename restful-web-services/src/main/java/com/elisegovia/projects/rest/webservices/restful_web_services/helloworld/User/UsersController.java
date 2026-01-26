@@ -1,6 +1,7 @@
 package com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.User;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.User.Beans.User;
+import com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.User.Exceptions.UserNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,7 +29,11 @@ public class UsersController {
     // Gets specific user
     @GetMapping("/users/{id}")
     public User get(@PathVariable Integer id) {
-        return userDao.get(id);
+        User user = userDao.get(id);
+        if (user == null) {
+            throw new UserNotFoundException("User with id " + id + " is not found");
+        }
+        return user;
     }
 
     // Post /users
