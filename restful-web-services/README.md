@@ -22,7 +22,7 @@ is Jackson which is a tool that can work with XML and JSON.
 ```java
     @GetMapping(path = "/some/path/{name}")
     someGetMethod(@PathVariable String name) {
-        return wtvJson(name)
+        return wtvJson(name);
     }
 ```
 So. Looks like you just set the path param as {var} and then you specify that you want to use it by using the `PathVariable`
