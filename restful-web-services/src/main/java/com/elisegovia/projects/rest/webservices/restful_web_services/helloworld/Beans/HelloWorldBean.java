@@ -1,4 +1,4 @@
-package com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.beans;
+package com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.Beans;
 
 
 // Demo purpose only. when we return a POJO or Bean in a REST response, it gets returned as JSON

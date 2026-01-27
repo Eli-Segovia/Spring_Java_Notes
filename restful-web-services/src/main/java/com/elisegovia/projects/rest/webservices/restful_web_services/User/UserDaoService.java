@@ -1,6 +1,6 @@
-package com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.User;
+package com.elisegovia.projects.rest.webservices.restful_web_services.User;
 
-import com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.User.Beans.User;
+import com.elisegovia.projects.rest.webservices.restful_web_services.User.Beans.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

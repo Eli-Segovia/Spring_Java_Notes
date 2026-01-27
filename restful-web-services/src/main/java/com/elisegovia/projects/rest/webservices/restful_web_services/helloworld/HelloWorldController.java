@@ -1,6 +1,6 @@
 package com.elisegovia.projects.rest.webservices.restful_web_services.helloworld;
 
-import com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.beans.HelloWorldBean;
+import com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.Beans.HelloWorldBean;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

@@ -70,4 +70,10 @@ You can add additional metadata within the `created` method (or whichever Respon
 you can specify the new URI for the user created i.e. `http://localhost:8080/users/{newlyCreatedID}` as part of the metadata.
 Look at the code to see that.
 
-#### Exceptions, 400 codes, and 500 codes
+#### Exceptions, 400 codes, and 500 codes - Exception Handling
+
+All Spring MVC-based exceptions → that is if anything fails between request and response with our service, goes through
+something called `ResponseEntityExceptionHandler` This thing returns formatted error details. One of the methods in this
+class is called `handleException` and we can overwrite this method in our code to do some more customized exception handling
+
+

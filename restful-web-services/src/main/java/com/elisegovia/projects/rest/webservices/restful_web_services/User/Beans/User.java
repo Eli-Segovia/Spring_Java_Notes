@@ -1,4 +1,4 @@
-package com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.User.Beans;
+package com.elisegovia.projects.rest.webservices.restful_web_services.User.Beans;
 
 import java.time.LocalDate;
 

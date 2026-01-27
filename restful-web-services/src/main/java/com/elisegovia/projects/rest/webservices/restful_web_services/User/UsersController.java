@@ -1,7 +1,7 @@
-package com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.User;
+package com.elisegovia.projects.rest.webservices.restful_web_services.User;
 
-import com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.User.Beans.User;
-import com.elisegovia.projects.rest.webservices.restful_web_services.helloworld.User.Exceptions.UserNotFoundException;
+import com.elisegovia.projects.rest.webservices.restful_web_services.User.Beans.User;
+import com.elisegovia.projects.rest.webservices.restful_web_services.User.Exceptions.UserNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
