@@ -56,4 +56,11 @@ public class UsersController {
                 .created(location)
                 .body(newUser);
     }
+
+    // Get /users/{id}
+    // Gets specific user
+    @DeleteMapping("/users/{id}")
+    public Boolean delete(@PathVariable Integer id) {
+        return userDao.delete(id);
+    }
 }

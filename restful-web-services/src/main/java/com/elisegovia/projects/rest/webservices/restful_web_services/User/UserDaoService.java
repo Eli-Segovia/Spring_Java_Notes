@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /*
  * This is what we use to talk to the DB. We represent all of our REST methods. (i.e.)
@@ -54,6 +55,16 @@ public class UserDaoService {
         user.setId(users.size() + 1);
         users.add(user);
         return user;
+    }
+
+    public Boolean delete(Integer id) {
+        Predicate<? super User> predicate = user -> user.getId().equals(id);
+        User user = users.stream().filter(predicate).findFirst().orElse(null);
+        if (null != user) {
+            users.remove(user);
+            return true;
+        }
+        return false;
     }
 
 
