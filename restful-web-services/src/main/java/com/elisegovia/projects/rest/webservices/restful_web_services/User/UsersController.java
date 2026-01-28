@@ -2,6 +2,7 @@ package com.elisegovia.projects.rest.webservices.restful_web_services.User;
 
 import com.elisegovia.projects.rest.webservices.restful_web_services.User.Beans.User;
 import com.elisegovia.projects.rest.webservices.restful_web_services.User.Exceptions.UserNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -41,7 +42,7 @@ public class UsersController {
     // RequestBody maps the request body to the POJO we expect. here we are expecting a user json to map to our
     // user POJO
     @PostMapping("/users")
-    public ResponseEntity<User> post(@RequestBody User user) {
+    public ResponseEntity<User> post(@Valid @RequestBody User user) {
         // dao adds new user
         User newUser = userDao.post(user);
 

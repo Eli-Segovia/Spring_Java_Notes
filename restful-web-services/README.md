@@ -77,3 +77,57 @@ something called `ResponseEntityExceptionHandler` This thing returns formatted e
 class is called `handleException` and we can overwrite this method in our code to do some more customized exception handling
 
 
+### Data Validation
+
+In order to allow valid data, we need to do validation. Apparently Spring has its own starter project for validation:
+`spring-boot-starter-validation` -> we bring that dependency into our pom.xml
+
+We can then use the @Valid annotation in the following way:
+
+```java
+ // Post /users
+    // Posts a user
+    // RequestBody maps the request body to the POJO we expect. here we are expecting a user json to map to our
+    // user POJO
+    @PostMapping("/users")
+    public ResponseEntity<User> post(@Valid @RequestBody User user) {
+        // dao adds new user
+        User newUser = userDao.post(user);
+
+        // Get URI to new user
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newUser.getId())
+                .toUri();
+
+        // return created 201 code along with new location of new user
+        return ResponseEntity
+                .created(location)
+                .body(newUser);
+    }
+```
+
+Then we define validation within our POJO (in this case user) and the validation is automatically invoked!
+
+For example, here is `User` with validation added:
+
+```java
+
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
+import java.time.LocalDate;
+
+public class User {
+    private Integer id;
+
+    @Size(min=2)
+    private String name;
+
+    @Past
+    private LocalDate birthDate;
+/**
+ * The rest of the code is omitted since it is not necessary
+ */
+
+```
