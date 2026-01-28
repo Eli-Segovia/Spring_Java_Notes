@@ -1,8 +1,11 @@
-package com.elisegovia.projects.rest.webservices.restful_web_services.User.Exceptions;
+package com.elisegovia.projects.rest.webservices.restful_web_services.User.Error;
 
-import org.jspecify.annotations.Nullable;
+import com.elisegovia.projects.rest.webservices.restful_web_services.User.Error.Exceptions.UserNotFoundException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -34,6 +37,16 @@ public class EsegoviResponseEntityExceptionHandler extends ResponseEntityExcepti
         ErrorDetails details = new ErrorDetails(LocalDate.now(), ex.getMessage(), request.getDescription(false));
 
         return new ResponseEntity(details, HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        // you can extract some info from the exception, i.e. the messages you might want to display to the user, the
+        // count, etc.
+
+        ErrorDetails details = new ErrorDetails(LocalDate.now(), ex.getMessage(), request.getDescription(false));
+
+        return new ResponseEntity(details, HttpStatus.BAD_REQUEST);
     }
 
 }

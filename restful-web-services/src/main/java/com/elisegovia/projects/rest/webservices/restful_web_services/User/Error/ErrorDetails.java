@@ -1,4 +1,4 @@
-package com.elisegovia.projects.rest.webservices.restful_web_services.User.Exceptions;
+package com.elisegovia.projects.rest.webservices.restful_web_services.User.Error;
 
 import java.time.LocalDate;
 

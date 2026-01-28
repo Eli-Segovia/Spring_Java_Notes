@@ -129,5 +129,40 @@ public class User {
 /**
  * The rest of the code is omitted since it is not necessary
  */
-
 ```
+
+We can then define specific exception methods to send back specific information if a request is bad
+
+
+## Swagger and OpenAPO
+* 2 choices to generate documentation from code
+* documents the REST API
+
+Does this using the annotations and shit. Can simply throw in the following dependency and it just works!
+
+```xml
+<dependency>
+	<groupId>org.springdoc</groupId>
+	<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+</dependency>
+```
+And then you can see the OpenAPI specification by clicking the definition at the top
+
+## Content Negotiation
+
+With REST APIs you hit a URI and then get back JSON (typically). Sometimes, a different client be expecting a different
+format though. For example, we might want XML for some reason. ORR alternatively, we might want the response in a different
+language.
+
+Content Negotiation is about allowing the client to sort of tell the endpoint that we want the data back in a certain
+lang or format.
+
+to return the xml, it's a simple as adding the following dependency:
+
+```xml
+<dependency>
+	<groupId>com.fasterxml.jackson.dataformat</groupId>
+	<artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+```
+and voilà, you can request XML by adding the `Accept: aplication/xml` header to your request
