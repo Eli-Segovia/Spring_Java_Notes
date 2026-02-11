@@ -157,6 +157,8 @@ language.
 Content Negotiation is about allowing the client to sort of tell the endpoint that we want the data back in a certain
 lang or format.
 
+### Accept application/xml
+
 to return the xml, it's a simple as adding the following dependency:
 
 ```xml
@@ -166,3 +168,13 @@ to return the xml, it's a simple as adding the following dependency:
 </dependency>
 ```
 and voilà, you can request XML by adding the `Accept: aplication/xml` header to your request
+
+### Accept Language Header
+
+Internationationlization = i18n
+
+Accept-Language header indicates the language that the consumer prefers.
+
+I am not going to implement this. But basically, you control different values in property files for different langauges
+and then you can pull the right property file using `org.springframework.context.MessageSource` to return the correct 
+message you pull the locale from the header using `LocaleContextHolder` and `Locale`
