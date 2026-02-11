@@ -178,3 +178,61 @@ Accept-Language header indicates the language that the consumer prefers.
 I am not going to implement this. But basically, you control different values in property files for different langauges
 and then you can pull the right property file using `org.springframework.context.MessageSource` to return the correct 
 message you pull the locale from the header using `LocaleContextHolder` and `Locale`
+
+
+
+## Versioning
+
+## URI Versioning
+
+Basically, you create a route with the version e.g.:
+- `http://localhost:8080/v1/{blah}`
+- `http://localhost:8080/v2/{blah}`
+
+## Request Param Versioning
+
+Basically, you create your routes to take a version variable:
+- `http://localhost:8080/{blah}?version=1`
+- `http://localhost:8080/{blah}?version=2`
+
+## Custom Header versioning
+Basically, expect a request header to tell you the version
+- url-header -> X-API-VERSION=1
+- url-header -> X-API-VERSION=2
+
+## Mediatype Versioning (Content Negotiation)
+Honestly I don't care enough.
+
+## Spring Boot Versioning
+
+For URI-based versioning, basically, you implement something like:
+
+### In the java:
+```java
+@GetMapping(value="/{version}/somePath", version="1.0.0")
+public SomeResource someMethod() {
+    return new SomeResource();
+}
+```
+
+### In the properties (application.properties)
+```properties
+spring.mvc.apiversion.use.path-segment=0
+```
+
+For query param based versioning, you do something like:
+
+### In the java:
+```java
+@GetMapping(value="/somePath", version="1.0.0")
+public SomeResource someMethod() {
+    return new SomeResource();
+}
+```
+### in the properties:
+```properties
+# here version is the query param variable we will be using i.e. localhost?version=1
+spring.mvc.apiversion.use.query-parameter=version
+```
+
+You can also implement the other types of versioning, but idc enough
