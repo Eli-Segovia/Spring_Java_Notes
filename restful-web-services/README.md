@@ -361,3 +361,12 @@ public Person getPersonPhysical(@PathVariable Integer id) {
 ```
 
 
+## Acutator
+
+add `spring-boot-starter-actuator` to pom.xml and get several metrics endpoints for free on `localhost:8080/actuator`
+
+in application.properties you manage the actuator endpoints you want to expose. a lot of them are not exposed by default
+
+can expose all by doing `management.endpoints.web.exposure.include=*` 
+
+There's a lot of metrics to get by defualt. wouldn't be surpised if you could define custom ones.
