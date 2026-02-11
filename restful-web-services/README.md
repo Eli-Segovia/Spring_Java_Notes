@@ -236,3 +236,128 @@ spring.mvc.apiversion.use.query-parameter=version
 ```
 
 You can also implement the other types of versioning, but idc enough
+
+# HATEOAS
+
+HATEOAS = Hypermedia as the Engine of Application State
+
+Basically when you get a resource, HATEOAS is the paradigm that you should also get related actions you can perform on that
+resource/resources related to the resource.
+
+For example, when we GET a specific user using `localhost:8080/users/{id}`, we might also want to become aware of 
+`localhost:8080/users` to get all users. To do this, we can update our `UsersController` class:
+
+Some new classes we are using:
+- `EntityModel` - This is a wrapper class that returns the Resource along with any extra metadata we want to add
+we add this by adding `spring-boot-starter-hateoas` artifact to pom.xml
+- `WebMvcLinkBuilder` - This is needed to link our controller methods with the metadata we add into the EntityModel
+
+```java
+    @GetMapping("/users")
+    public List<User> get() {
+        return userDao.get();
+    }
+    
+    @GetMapping("/users/{id}")
+    public EntityModel<User> get(@PathVariable Integer id) {
+        User user = userDao.get(id);
+        if (user == null) {
+            throw new UserNotFoundException("User with id " + id + " is not found");
+        }
+        EntityModel<User> model = new EntityModel.of(user);
+        WebMvcLinkBuilder allUsersLink = linkTo(methodOn(this.getClass()).get()); // notice that `.get` is the poorly named method that gets all users.
+        model.add(allUsersLink.withRel("all-users")); // here the "all-users" is sort of the label we give to this link.
+        return model;
+    }
+```
+
+and when we make the request to ,say, user=2 `localhost:8080/users/2`, the response is something like:
+```json
+{
+  "_links": {
+    "all-users": {
+      "href": "http://localhost:8080/users"
+    }
+  },
+  "id": 2,
+  "name": "Bella",
+  "birthDate": "1995-02-10"
+}
+```
+
+# Filtering
+
+## Static Filtering
+- __Removing a field from the response__:  
+If for some reason a field should not be returned, the `@JsonIgnore` annotation can be added to the field, and it will
+not be returned in the response.
+Additionally, the `@JsonIgnoreProperties({"fieldName", "fieldName2"})` can be on the class as well.
+
+## Dynamic Filtering
+There is a concept called JSON Views. A view is a THING that you associate JSON fields to. For example if I have a Person
+resource, there may be a Physical Characteristic View and a Personality View. I would associate the physical characteristics
+of the JSON with the PhysicalCharacteristic View and personality traits with the PersonalityView. To do this, 
+we create the Views in the following way. They are basically empty interfaces.
+
+```java
+public class View {
+    public interface PersonalityView {
+        
+    }
+    
+    public interface PhysicalCharacteristicView {
+        
+    }
+}
+```
+
+and in the bean code:
+
+```java
+
+public class Person {
+    @JsonView(View.PhysicalCharacteristicView.class)
+    private String height;
+    @JsonView(View.PhysicalCharacteristicView.class)
+    private String weight;
+    @JsonView(View.PhysicalCharacteristicView.class)
+    private String hairColor;
+    @JsonView(View.PhysicalCharacteristicView.class)
+    private String muscleMass;
+    @JsonView(View.PhysicalCharacteristicView.class)
+    private String fatPercentage;
+
+    // energy level is both personality and physical
+    @JsonView({View.PhysicalCharacteristicView.class, View.PersonalityView.class})
+    private String energy;
+
+    @JsonView(View.PersonalityView.class)
+    private Boolean isFunny;
+    @JsonView(View.PersonalityView.class)
+    private String favoriteColor;
+    @JsonView(View.PersonalityView.class)
+    private String favoriteFood;
+
+    // fake getters and setters
+}
+```
+
+and then finally in the RestController code:
+
+```java
+import com.fasterxml.jackson.annotation.JsonView;
+
+@GetMapping("/persons/{id}/personality")
+@JsonView(View.PersonalityView.class)
+public Person getPersonPersonality(@PathVariable Integer id) {
+    // code gets the person, view does the filtering
+}
+
+@GetMapping("/persons/{id}/physical")
+@JsonView(View.PhysicalCharacteristicView.class)
+public Person getPersonPhysical(@PathVariable Integer id) {
+    // code gets the person, view does the filtering
+}
+```
+
+
