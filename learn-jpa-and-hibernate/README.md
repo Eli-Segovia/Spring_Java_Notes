@@ -17,8 +17,8 @@ You can then run the application and go over to `localhost:8080/h2-console` and 
 
 ![img.png](img.png)
 
-notice JDBC URL is set to `jdbc:h2:~/test` this is the default. We need to change this from what we get in the logs. 
-Remember that should look something like `url=jdbc:h2:mem:eae25c24-5ec2-439e-bc2c-61bae6a81a6b`
+notice JDBC URL is set to `jdbc:h2:~/test` this is the default. We need to change this from that to what we get in the 
+logs. Remember that should look something like `url=jdbc:h2:mem:eae25c24-5ec2-439e-bc2c-61bae6a81a6b`
 
 Default username is `sa` with no password.
 
