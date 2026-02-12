@@ -1,5 +1,5 @@
 # Spring_Java_Notes
-Notes and mini project for Spring/Spring Boot for Java
+Notes and mini projects for Spring/Spring Boot for Java
 
 ## Bootstrapping a Spring project
 
