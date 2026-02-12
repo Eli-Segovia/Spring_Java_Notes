@@ -90,3 +90,29 @@ To get this quickly up and running with the DB, we are going to use something a 
 upon entry to our code. I added a class to do this called `CourseJdbcCommandLineRunner` check it out because I don't
 wanna bother here, but basically it's a way to execute our little CourseJdbcRepository code. And indeed when I add the 
 CommandLineRunner and run our code, we get the results we expect.
+
+### Deleting and Inserting
+
+I add more code for deleting and inserting. I only note something if it's worth discussing. But overall here is a summary:
+1. Create DB tables as POJOs: we add Course POJO
+2. Update the Repository code to not be hardcoded. We do this by updating the query with question marks, and updating the
+method to accept the POJO/Bean we created to represent the Course in Java.
+```java
+@Repository
+public class CourseJdbcRepository {
+
+    @Autowired
+    private JdbcTemplate springJdbcTemplate;
+
+    private static String INSERT_QUERY =
+            """
+                        insert into course(id, name, author)
+                        values(?,?,?)
+                    """;
+
+    public void insert(Course course) {
+        springJdbcTemplate.update(INSERT_QUERY, course.getId(), course.getName(), course.getAuthor());
+    }
+}
+ 
+```
