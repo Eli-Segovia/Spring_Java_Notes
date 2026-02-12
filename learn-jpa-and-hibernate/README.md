@@ -30,7 +30,32 @@ You can also just set the url to anything you want. That will be set in the appl
 
 Now we can log in and do shit :)
 
-### Working with the DB
+### Creating Schemas...
 
+I wasn't expecting to do DBA shit, but I guess I have to have some semblance of an idea. Let's create .sql files in the 
+resources folder.
 
+The first one we'll make is `schema.sql` what a fucking creative name. I add that file, reference it for the syntax. H2 
+automatically picks it up and creates the Table. How cool.
+
+It looks something like:
+```sql
+create table course (
+    id bigint not null,
+    name varchar(255) not null,
+    author varchar(255) not null,
+    primary key (id)
+);
+```
+
+## JDBC
+
+We want our application to interact with the DB (in this case, H2). Here is some sample SQL we might want to run the 
+following to add a course:
+
+```sql
+insert into course(id, name, author)
+values(1, 'Learn Java', 'Eli Segovia')
+
+```
 
