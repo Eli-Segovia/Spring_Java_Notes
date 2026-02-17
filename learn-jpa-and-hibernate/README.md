@@ -106,13 +106,51 @@ public class CourseJdbcRepository {
 
     private static String INSERT_QUERY =
             """
-                        insert into course(id, name, author)
-                        values(?,?,?)
+                        INSERT INTO COURSE(id, name, author)
+                        VALUES(?,?,?)
+                    """;
+
+    private static String DELETE_QUERY =
+            """
+                    DELETE FROM COURSE WHERE id = ?
                     """;
 
     public void insert(Course course) {
         springJdbcTemplate.update(INSERT_QUERY, course.getId(), course.getName(), course.getAuthor());
     }
-}
+
+    public void delete(Long id) {
+        springJdbcTemplate.update(DELETE_QUERY, id);
+    }
  
+```
+
+## Obtaining DB Objects, ResultSet, Beans, and Row Mapper
+
+When we want to obtain results, we perform `SELECT` queries. JDBC will return the results of such queries as an object
+called `ResultSet`. Typically, we will want to return our Bean representing the object returned (i.e. a Course object),
+so with `SELECT` operations, we want to do a little more work.
+
+the SpringJdbcTemplate object we use to interface with the DB is expecting us to use `BeanPropertyRowMapper`. Like most
+things Java, it kinda just takes the Bean we want to translate to, and it works like magic. So I show the code below to 
+show how this works:
+
+```java
+    private static String SELECT_QUERY =
+            """
+            SELECT * FROM COURSE WHERE id = ?
+            """;
+
+
+    public Course select(Long id) {
+        /**
+         * So unlike the other update methods, here since we are expecting data back and not manipulating the DB,
+         * we use the queryForObject (there are other flavors of this method that we can explore later)
+         
+         * We also expect three args: the query, the RowMapper, and the variables ('?') used in the query
+         * The only new thing is the RowMapper which it needs to know how to translate from the ResultSet object to the
+         * specific Bean/Object we want to work with. The Object needs to have the same fields as the DB Object.
+         */
+        return springJdbcTemplate.queryForObject(SELECT_QUERY, new BeanPropertyRowMapper<Course>(Course.class), id);
+    }
 ```
