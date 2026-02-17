@@ -1,8 +1,19 @@
 package com.elisegovia.projects.learnjpaandhibernate.course.beans;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity (name="Course") // Not needed because class name matches with DB table. Show as example
 public class Course {
+
+    @Id // Indicates this is the primary key of the Table
     private Long id;
+
+    @Column(name="name") // not needed because Java member var is the same as the DB field. show as example
     private String name;
+
+    @Column(name="author") // not needed because Java member var is the same as the DB field. show as example
     private String author;
 
     public Course() {

@@ -154,3 +154,86 @@ show how this works:
         return springJdbcTemplate.queryForObject(SELECT_QUERY, new BeanPropertyRowMapper<Course>(Course.class), id);
     }
 ```
+
+# JPA and Entity Manager
+This is a little different than using JDBC directly. Although JDBC is the backbone of JPA, JPA is much more simple to use
+and allows us to map the DB directly into our Java representation.
+
+Essentially, the paradigm is: Map our POJO/Beans directly to the Database using something called an EntityManager. Like 
+with JDBC, the methods we expose to work with our Database are controlled in a Repository class.
+
+First, let's update Course to be mapped directly to the Database Table. That looks like:
+
+```java
+package com.elisegovia.projects.learnjpaandhibernate.course.beans;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity (name="Course") // Not needed because class name matches with DB table. Show as example
+public class Course {
+
+    @Id                     // Indicates this is the primary key of the Table
+    private Long id;
+
+    @Column(name = "name")    // not needed because Java member var is the same as the DB field. show as example
+    private String name;
+
+    @Column(name = "author")  // not needed because Java member var is the same as the DB field. show as example
+    private String author;
+}
+/**
+ * constructors, getters and setters omitted.
+ */
+
+```
+
+We then implement the repository to manipulate the DB:
+
+```java
+package com.elisegovia.projects.learnjpaandhibernate.course.jpa;
+
+import com.elisegovia.projects.learnjpaandhibernate.course.beans.Course;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@Transactional
+public class CourseJpaRepository {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public void insert(Course course) {
+        entityManager.merge(course);
+    }
+
+    public void delete(Long id) {
+        Course course = entityManager.find(Course.class, id);
+        entityManager.remove(course);
+    }
+
+    public Course select(Long id) {
+        return entityManager.find(Course.class, id);
+    }
+
+}
+
+```
+#### WTF is Transactional
+In JPA (Java Persistence API), @Transactional ensures that a group of database operations (create, read, update, delete)
+are treated as a single unit of work, following ACID principles (Atomicity, Consistency, Isolation, Durability). It
+guarantees that all operations within the method either fully commit or rollback together if an error occurs.
+
+#### WTF is PersistenceContext
+* Entities are managed by jakarta.persistence.EntityManager instance using persistence context.
+* Each EntityManager instance is associated with a persistence context.
+* Within the persistence context, the entity instances and their lifecycle are managed.
+* Persistence context defines a scope under which particular entity instances are created, persisted, and removed.
+* A persistence context is like a cache which contains a set of persistent entities , So once the transaction is finished, all persistent objects are detached from the EntityManager's persistence context and are no longer managed.
+
+#### CommandLineRunner aside...
+To demonstrate JPA, I also updated the CommandLineRunenr to be more generic. Just in case you got confused.
