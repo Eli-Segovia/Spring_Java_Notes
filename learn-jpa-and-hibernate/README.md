@@ -266,3 +266,10 @@ and you immediately get access to CRUD methods like the following with the repos
 * `repository.deleteById(1L)` -> deletes By ID
 * `repository.findById(1L)` -> gets object by ID
 * `repository.findAll()`
+
+
+# Hibernate vs JPA
+
+![img_1.png](img_1.png)
+
+Basically JPA defines the "skeleton" Hibernate is the "flesh and blood" (implementation) of the skeleton
