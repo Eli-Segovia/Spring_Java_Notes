@@ -237,3 +237,32 @@ guarantees that all operations within the method either fully commit or rollback
 
 #### CommandLineRunner aside...
 To demonstrate JPA, I also updated the CommandLineRunenr to be more generic. Just in case you got confused.
+
+# Spring Data JPA
+
+This makes it EVEN Easier. You still work with repositories, but you get the methods for free. Literally just add the
+repository to model the object (i.e. Course) like this:
+
+```java
+package com.elisegovia.projects.learnjpaandhibernate.course.springdatajpa;
+
+import com.elisegovia.projects.learnjpaandhibernate.course.beans.Course;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+// the first template object is the one we want to model with this repository
+// the second template object is the one that represets the type of the PrimaryKey
+public interface CourseSpringDataJpaRepository extends JpaRepository<Course, Long> {
+    // can also add custom methods that follow certain conventions. I don't go into that because
+    // I can probably figure out the convention with documentation. But here is an example:
+    List<Course> findByAuthor(String author); // and it just nows how to do this. NEAT!
+}
+```
+
+and you immediately get access to CRUD methods like the following with the repository object of type 
+`CourseSpringDataJpaRepository` 
+
+(`@Autowired CourseSpringDataJpaRepository repository`)
+* `repository.save(new Course())` -> saves the new course to DB
+* `repository.deleteById(1L)` -> deletes By ID
+* `repository.findById(1L)` -> gets object by ID
+* `repository.findAll()`
