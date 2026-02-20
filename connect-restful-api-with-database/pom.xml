@@ -11,7 +11,7 @@
 	<groupId>com.elisegovia.projects.rest.webservices</groupId>
 	<artifactId>connect-restful-api-with-database</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>restful-web-services</name>
+	<name>connect-restful-api-with-database</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

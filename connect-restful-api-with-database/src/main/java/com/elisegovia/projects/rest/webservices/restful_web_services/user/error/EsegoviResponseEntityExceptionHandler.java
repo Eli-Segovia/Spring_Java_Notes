@@ -1,6 +1,6 @@
-package com.elisegovia.projects.rest.webservices.restful_web_services.User.Error;
+package com.elisegovia.projects.rest.webservices.restful_web_services.user.error;
 
-import com.elisegovia.projects.rest.webservices.restful_web_services.User.Error.Exceptions.UserNotFoundException;
+import com.elisegovia.projects.rest.webservices.restful_web_services.user.error.Exceptions.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

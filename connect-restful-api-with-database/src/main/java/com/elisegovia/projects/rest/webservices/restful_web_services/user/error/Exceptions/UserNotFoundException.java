@@ -1,4 +1,4 @@
-package com.elisegovia.projects.rest.webservices.restful_web_services.User.Error.Exceptions;
+package com.elisegovia.projects.rest.webservices.restful_web_services.user.error.Exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,6 +1,6 @@
-package com.elisegovia.projects.rest.webservices.restful_web_services.User;
+package com.elisegovia.projects.rest.webservices.restful_web_services.user;
 
-import com.elisegovia.projects.rest.webservices.restful_web_services.User.Beans.User;
+import com.elisegovia.projects.rest.webservices.restful_web_services.user.beans.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -10,9 +10,9 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 /*
- * This is what we use to talk to the DB. We represent all of our REST methods. (i.e.)
+ * This is what we use to talk to the fake DB. We represent all of our REST methods. (i.e.)
  * getAll (get all Users)
- * get ( get a single User)
+ * get ( get a single user)
  * post (Save a user)
  *
  */

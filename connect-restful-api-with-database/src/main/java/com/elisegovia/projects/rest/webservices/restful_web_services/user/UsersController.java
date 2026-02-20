@@ -1,7 +1,7 @@
-package com.elisegovia.projects.rest.webservices.restful_web_services.User;
+package com.elisegovia.projects.rest.webservices.restful_web_services.user;
 
-import com.elisegovia.projects.rest.webservices.restful_web_services.User.Beans.User;
-import com.elisegovia.projects.rest.webservices.restful_web_services.User.Error.Exceptions.UserNotFoundException;
+import com.elisegovia.projects.rest.webservices.restful_web_services.user.beans.User;
+import com.elisegovia.projects.rest.webservices.restful_web_services.user.error.Exceptions.UserNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -37,7 +37,7 @@ public class UsersController {
     public EntityModel<User> get(@PathVariable Integer id) {
         User user = userDao.get(id);
         if (user == null) {
-            throw new UserNotFoundException("User with id " + id + " is not found");
+            throw new UserNotFoundException("user with id " + id + " is not found");
         }
         EntityModel<User> model = EntityModel.of(user);
         WebMvcLinkBuilder allUsersLink = linkTo(methodOn(this.getClass()).get()); // notice that `.get` is the poorly named method that gets all users.

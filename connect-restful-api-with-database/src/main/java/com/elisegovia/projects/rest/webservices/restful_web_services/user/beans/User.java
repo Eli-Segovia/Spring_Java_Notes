@@ -1,4 +1,4 @@
-package com.elisegovia.projects.rest.webservices.restful_web_services.User.Beans;
+package com.elisegovia.projects.rest.webservices.restful_web_services.user.beans;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,6 +11,10 @@ import java.time.LocalDate;
 
 @Entity (name="user_details") // cannot be "user" because it is a key word in some Databases
 public class User {
+
+    protected User() {
+
+    }
 
     @Id
     @GeneratedValue // The @GeneratedValue annotation in Hibernate (part of the JPA specification) is primarily used in conjunction with the @Id annotation to specify a strategy for automatically generating values for the primary key of an entity.
@@ -56,7 +60,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "user{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", birthDate=" + birthDate +
