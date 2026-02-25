@@ -1,5 +1,6 @@
 package com.elisegovia.projects.rest.webservices.restful_web_services.user;
 
+import com.elisegovia.projects.rest.webservices.restful_web_services.user.beans.Post;
 import com.elisegovia.projects.rest.webservices.restful_web_services.user.beans.User;
 import com.elisegovia.projects.rest.webservices.restful_web_services.user.error.Exceptions.UserNotFoundException;
 import com.elisegovia.projects.rest.webservices.restful_web_services.user.jpa.UserRepository;
@@ -47,6 +48,47 @@ public class UsersJpaController {
         WebMvcLinkBuilder allUsersLink = linkTo(methodOn(this.getClass()).get()); // notice that `.get` is the poorly named method that gets all users.
         model.add(allUsersLink.withRel("all-users"));
         return model;
+    }
+
+    // Get /users/{id}/posts
+    // Gets specific user
+    @GetMapping("/jpa/users/{id}/posts")
+    public List<Post> getPostsForUser(@PathVariable Integer id) {
+        Optional<User> user = repository.findById(id);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("user with id " + id + " is not found");
+        }
+        return user.get().getPosts();
+    }
+
+
+    // Post /jpa/users/{id}/posts
+    // Posts a post to a user
+    // RequestBody maps the request body to the POJO we expect. here we are expecting a user json to map to our
+    // user POJO
+    @PostMapping("/jpa/users/{id}/posts")
+    public ResponseEntity<User> postPostToUser(@PathVariable Integer id, @Valid @RequestBody Post post) {
+        // dao adds new user
+        Optional<User> user = repository.findById(id);
+
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("user with id " + id + " is not found");
+        }
+
+        user.get().getPosts().add(post);
+
+        repository.save(user.get());
+
+        // Get URI to new user
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
+
+        // return created 201 code along with new location of new user
+        return ResponseEntity
+                .created(location)
+                .body(user.get());
     }
 
     // Post /users
