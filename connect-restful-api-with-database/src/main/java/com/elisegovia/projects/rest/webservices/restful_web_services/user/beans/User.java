@@ -1,13 +1,12 @@
 package com.elisegovia.projects.rest.webservices.restful_web_services.user.beans;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity (name="user_details") // cannot be "user" because it is a key word in some Databases
 public class User {
@@ -27,6 +26,10 @@ public class User {
     @Column(name="birthDate")
     @Past(message = "Birthdate cannot be in the future")
     private LocalDate birthDate;
+
+    @OneToMany(mappedBy = "user") // Maps this field to the "user" field of class Post using one-to-many relationship
+    @JsonIgnore // ignores this when returning Json
+    private List<Post> posts;
 
     public User(Integer id, String name, LocalDate birthDate) {
         this.id = id;
