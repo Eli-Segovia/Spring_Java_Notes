@@ -3,6 +3,7 @@ package com.elisegovia.projects.rest.webservices.restful_web_services.user;
 import com.elisegovia.projects.rest.webservices.restful_web_services.user.beans.Post;
 import com.elisegovia.projects.rest.webservices.restful_web_services.user.beans.User;
 import com.elisegovia.projects.rest.webservices.restful_web_services.user.error.Exceptions.UserNotFoundException;
+import com.elisegovia.projects.rest.webservices.restful_web_services.user.jpa.PostRepository;
 import com.elisegovia.projects.rest.webservices.restful_web_services.user.jpa.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
@@ -24,9 +25,11 @@ public class UsersJpaController {
 //    private final UserDaoService userDao; no longer using this fake
 
     private final UserRepository repository;
+    private final PostRepository postRepository;
 
-    public UsersJpaController(UserRepository repository) {
+    public UsersJpaController(UserRepository repository, PostRepository postRepository) {
         this.repository = repository;
+        this.postRepository = postRepository;
     }
 
     // Get /users
@@ -67,28 +70,27 @@ public class UsersJpaController {
     // RequestBody maps the request body to the POJO we expect. here we are expecting a user json to map to our
     // user POJO
     @PostMapping("/jpa/users/{id}/posts")
-    public ResponseEntity<User> postPostToUser(@PathVariable Integer id, @Valid @RequestBody Post post) {
-        // dao adds new user
+    public ResponseEntity<Post> postPostToUser(@PathVariable Integer id, @Valid @RequestBody Post post) {
+
         Optional<User> user = repository.findById(id);
 
         if (user.isEmpty()) {
             throw new UserNotFoundException("user with id " + id + " is not found");
         }
 
-        user.get().getPosts().add(post);
-
-        repository.save(user.get());
+        post.setUser(user.get());
+        Post newPost = postRepository.save(post);
 
         // Get URI to new user
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(id)
+                .buildAndExpand(newPost.getId())
                 .toUri();
 
         // return created 201 code along with new location of new user
         return ResponseEntity
                 .created(location)
-                .body(user.get());
+                .body(newPost);
     }
 
     // Post /users
